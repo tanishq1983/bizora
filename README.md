@@ -144,6 +144,13 @@ identities are deleted afterwards; `public.users` cascades to everything below i
 
 ## Deploying
 
+**Web → Netlify.** The root `netlify.toml` builds `@bizora/shared` before
+`@bizora/web` from the repository root and publishes `apps/web/.next`. The shared
+package exports compiled files from `dist`, which is intentionally ignored by
+Git, so every fresh deployment must build it first. Set the Netlify package
+directory to `apps/web` and keep the base directory at the repository root.
+Set `NEXT_PUBLIC_API_URL` to the deployed API before building.
+
 **API → Railway / Render / Fly.** Build `npm run build --workspace @bizora/api`,
 start `npm run start --workspace @bizora/api`. Set `PORT`, `CORS_ORIGIN` to the
 web origin, and a real `GUEST_TOKEN_SECRET` — the default is a published dev value.
