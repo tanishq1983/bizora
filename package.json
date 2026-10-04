@@ -1,0 +1,42 @@
+{
+  "name": "bizora",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Bizora — From Startup Idea to Investor-Ready.",
+  "type": "module",
+  "engines": {
+    "node": ">=20.11"
+  },
+  "workspaces": [
+    "packages/*",
+    "apps/*"
+  ],
+  "scripts": {
+    "predev": "npm run build --workspace @bizora/shared",
+    "dev": "concurrently -n api,web -c magenta,cyan \"npm:dev:api\" \"npm:dev:web\"",
+    "dev:api": "npm run dev --workspace @bizora/api",
+    "dev:web": "npm run dev --workspace @bizora/web",
+    "prebuild": "npm run build --workspace @bizora/shared",
+    "build": "npm run build --workspace @bizora/api && npm run build --workspace @bizora/web",
+    "start": "npm run start --workspace @bizora/api",
+    "pretypecheck": "npm run build --workspace @bizora/shared",
+    "typecheck": "npm run typecheck --workspaces --if-present",
+    "lint": "npm run lint --workspaces --if-present",
+    "pretest": "npm run build --workspace @bizora/shared",
+    "test": "node --test packages/shared/test/*.test.mjs",
+    "smoke": "node scripts/smoke.mjs",
+    "verify:supabase": "node scripts/supabase-auth.mjs",
+    "db:schema": "node scripts/apply-schema.mjs",
+    "clean": "Remove-Item -Recurse -Force node_modules,.next,dist,tsconfig.tsbuildinfo -ErrorAction SilentlyContinue"
+  },
+  "devDependencies": {
+    "concurrently": "^9.1.2",
+    "typescript": "^5.7.3"
+  },
+  "allowScripts": {
+    "esbuild@0.28.2": true,
+    "protobufjs@7.6.6": true,
+    "@google/genai@2.27.0": true,
+    "unrs-resolver@1.12.2": true
+  }
+}

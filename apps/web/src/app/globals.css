@@ -1,0 +1,197 @@
+@import 'tailwindcss';
+
+/*
+ * Bizora design tokens.
+ *
+ * The shell is deep navy; content sits on white cards. That contrast is the
+ * whole visual argument — the product chrome reads as infrastructure, the
+ * founder's data reads as a document. Accents are reserved for meaning:
+ * blue = primary, purple = AI-generated, green = strength, amber = caution,
+ * rose = weakness.
+ */
+
+@theme {
+  /* Deep navy shell */
+  --color-ink-950: #050912;
+  --color-ink-900: #080e1d;
+  --color-ink-850: #0b1226;
+  --color-ink-800: #101a33;
+  --color-ink-700: #17244a;
+  --color-ink-600: #22325f;
+  --color-ink-500: #33477d;
+
+  /* Blue — primary action */
+  --color-brand-50: #eff5ff;
+  --color-brand-100: #dbe8fe;
+  --color-brand-200: #bfd7fe;
+  --color-brand-300: #93bbfd;
+  --color-brand-400: #6098fa;
+  --color-brand-500: #3b76f6;
+  --color-brand-600: #2456eb;
+  --color-brand-700: #1c40d8;
+  --color-brand-800: #1d36af;
+  --color-brand-900: #1d338a;
+
+  /* Purple — AI-generated content */
+  --color-iris-50: #f5f3ff;
+  --color-iris-100: #ede9fe;
+  --color-iris-200: #ddd6fe;
+  --color-iris-300: #c4b5fd;
+  --color-iris-400: #a78bfa;
+  --color-iris-500: #8b5cf6;
+  --color-iris-600: #7c3aed;
+  --color-iris-700: #6d28d9;
+  --color-iris-800: #5b21b6;
+  --color-iris-900: #4c1d95;
+
+  /* Green — strength, ready */
+  --color-jade-50: #ecfdf5;
+  --color-jade-100: #d1fae5;
+  --color-jade-200: #a7f3d0;
+  --color-jade-300: #6ee7b7;
+  --color-jade-400: #34d399;
+  --color-jade-500: #10b981;
+  --color-jade-600: #059669;
+  --color-jade-700: #047857;
+
+  /* Amber — caution */
+  --color-amber-400: #fbbf24;
+  --color-amber-500: #f59e0b;
+  --color-amber-600: #d97706;
+  --color-amber-700: #b45309;
+
+  /* Rose — weakness, risk */
+  --color-rose-100: #ffe4e6;
+  --color-rose-300: #fda4af;
+  --color-rose-500: #f43f5e;
+  --color-rose-600: #e11d48;
+  --color-rose-700: #be123c;
+
+  /* Neutral content */
+  --color-slate-25: #fcfcfd;
+  --color-slate-150: #eef1f6;
+  --color-slate-250: #e2e8f0;
+
+  --font-sans: var(--font-bizora), ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  --font-mono: ui-monospace, 'SFMono-Regular', 'Cascadia Code', Menlo, monospace;
+
+  --radius-card: 1rem;
+
+  --shadow-soft: 0 1px 2px rgb(8 14 29 / 0.04), 0 8px 24px -12px rgb(8 14 29 / 0.12);
+  --shadow-lift: 0 2px 4px rgb(8 14 29 / 0.05), 0 18px 40px -18px rgb(8 14 29 / 0.22);
+  --shadow-glow: 0 0 0 1px rgb(59 118 246 / 0.18), 0 20px 50px -24px rgb(59 118 246 / 0.5);
+}
+
+/* ── Base ─────────────────────────────────────────────────────────────────── */
+
+@layer base {
+  html {
+    -webkit-text-size-adjust: 100%;
+    scroll-behavior: smooth;
+  }
+
+  body {
+    background-color: var(--color-ink-950);
+    color: var(--color-slate-25);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    /* Faint grid, so the navy shell has depth without decoration. */
+    background-image:
+      radial-gradient(ellipse 80% 55% at 50% -10%, rgb(59 118 246 / 0.16), transparent 60%),
+      radial-gradient(ellipse 55% 45% at 88% 8%, rgb(139 92 246 / 0.12), transparent 62%),
+      linear-gradient(to bottom, rgb(8 14 29 / 0.6), rgb(5 9 18));
+    background-attachment: fixed;
+  }
+
+  ::selection {
+    background-color: rgb(59 118 246 / 0.32);
+    color: #fff;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-brand-400);
+    outline-offset: 2px;
+    border-radius: 4px;
+  }
+
+  h1, h2, h3, h4 {
+    letter-spacing: -0.02em;
+    text-wrap: balance;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+}
+
+/* ── Utilities ────────────────────────────────────────────────────────────── */
+
+@utility container-page {
+  width: 100%;
+  margin-inline: auto;
+  max-width: 78rem;
+  padding-inline: 1.25rem;
+
+  @media (width >= 48rem) {
+    padding-inline: 2rem;
+  }
+}
+
+@utility text-gradient {
+  background-image: linear-gradient(100deg, #ffffff 8%, #bfd7fe 48%, #c4b5fd 92%);
+  background-clip: text;
+  color: transparent;
+}
+
+/* The one place animation is used: a slow, low-contrast drift on the hero. */
+@utility animate-drift {
+  animation: bizora-drift 18s ease-in-out infinite alternate;
+}
+
+@keyframes bizora-drift {
+  from { transform: translate3d(0, 0, 0) scale(1); }
+  to   { transform: translate3d(0, -18px, 0) scale(1.04); }
+}
+
+@keyframes bizora-fade-up {
+  from { opacity: 0; transform: translate3d(0, 10px, 0); }
+  to   { opacity: 1; transform: translate3d(0, 0, 0); }
+}
+
+@utility animate-fade-up {
+  animation: bizora-fade-up 0.32s ease-out both;
+}
+
+@keyframes bizora-shimmer {
+  from { background-position: -420px 0; }
+  to   { background-position: 420px 0; }
+}
+
+/* Skeletons. Deliberately slow and low-contrast — the page should feel like it
+   is thinking, not flashing. */
+@utility skeleton {
+  background-image: linear-gradient(90deg, rgb(226 232 240 / 0.55) 0%, rgb(241 245 249 / 0.9) 50%, rgb(226 232 240 / 0.55) 100%);
+  background-size: 420px 100%;
+  background-repeat: no-repeat;
+  animation: bizora-shimmer 1.5s linear infinite;
+  border-radius: 0.5rem;
+}
+
+@utility scrollbar-slim {
+  scrollbar-width: thin;
+  scrollbar-color: rgb(148 163 184 / 0.45) transparent;
+}
+
+/* ── Reduced motion ───────────────────────────────────────────────────────── */
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
